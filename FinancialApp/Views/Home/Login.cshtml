@@ -1,0 +1,67 @@
+﻿@model LoginViewModel
+<style>
+
+    main{
+        height:350px;
+    }
+    .containerLogin{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100%;
+    }
+
+    .formLogin{
+        display:flex;
+        flex-direction:column;
+        width:400px;
+        box-sizing:border-box;
+    }
+    .itemsForm{
+        display:flex;
+        flex-direction:column;
+    }
+    
+    .itemsForm input{
+        width:250px;
+        margin:auto;
+    }
+
+    .btnLogin{
+        border-radius:6px;
+        width:200px;
+        margin: 15px auto 0px auto;
+    }
+
+    .labelLogin{
+        margin:auto;
+    }
+
+    .rememberLogin{
+        margin:auto;
+    }
+    
+</style>
+
+<div class="containerLogin">
+
+    <form class="formLogin" asp-controller="Home" asp-action="Login">
+        <div class="itemsForm">
+            <label class="labelLogin" asp-for="Email"></label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="itemsForm">
+            <label class="labelLogin" asp-for="Password"></label>
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <button class="btnLogin" type="button">Logar</button>
+
+        <div class="rememberLogin">
+            <input type="checkbox" asp-for="RememberMe">
+            <label for="meuCheckbox">Lembrar senha?</label>
+        </div>
+    </form>
+
+</div>
