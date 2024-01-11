@@ -12,7 +12,7 @@ namespace FinancialApp
 
             builder.Services.AddDbContext<MyContextApp>(options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("MyConnection")));
-            builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<MyContextApp>();
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<MyContextApp>();
 
 
             // Add services to the container.

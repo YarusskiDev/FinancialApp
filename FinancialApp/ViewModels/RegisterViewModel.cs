@@ -7,6 +7,7 @@ namespace FinancialApp.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name= "Nome")]
         public string Name { get; set; }
 
         [Required]
@@ -17,11 +18,11 @@ namespace FinancialApp.ViewModels
         [StringLength(100, ErrorMessage = "O {1} deve ter pelo menos {2} caracteres")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
+        public string PassWord { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = " Confirm PassWord")]
-        [Compare("PassWord", ErrorMessage = "The password e a confirmação de password não são iguais.")]
+        [Display(Name = " Confirme o PassWord")]
+        [Compare("PassWord", ErrorMessage = "The PassWord e a confirmação de PassWord não são iguais.")]
         public string ConfirmPassWord { get; set; }
 
     }
