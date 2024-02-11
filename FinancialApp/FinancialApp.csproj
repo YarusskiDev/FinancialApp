@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DotVVM.HotReload.AspNetCore" Version="4.2.3" />
+    <PackageReference Include="Highsoft.Highcharts" Version="11.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />

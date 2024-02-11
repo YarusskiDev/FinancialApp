@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<FinancialAppInfrastructure.Data.ApplicationContext.AppUser> SignInManager
+@inject UserManager<FinancialAppInfrastructure.Data.ApplicationContext.AppUser> UserManager
+
+@{
+
+
+
+
+}
+
+<ul class="navbar-nav">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+        </li>
+       <li class="nav-item">
+            <a class="nav-link text-dark" href="#">Oi @UserManager.GetUserAsync(User).Result.Name!</a>
+       </li>
+       <li class="nav-item">
+         <form class="row" method="post" asp-area="" asp-controller="Home" asp-action="LogOff">
+             <button type="submit" class="btn nav-link">Sair</button>
+         </form>
+       </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Entrar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Register">Registro</a>
+        </li>
+    }
+</ul>

@@ -1,4 +1,5 @@
 ﻿@model LoginViewModel
+
 <style>
 
     main{
@@ -45,7 +46,7 @@
 
 <div class="containerLogin">
 
-    <form class="formLogin" method="post" asp-controller="Home" asp-action="Login">
+    <form class="formLogin" method="post" asp-controller="Home" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
         <div class="itemsForm">
             <label class="labelLogin" asp-for="Email"></label>
             <input asp-for="Email" />

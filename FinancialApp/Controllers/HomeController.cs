@@ -1,6 +1,7 @@
 ﻿using FinancialApp.Models;
 using FinancialApp.ViewModels;
 using FinancialAppInfrastructure.Data.ApplicationContext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -20,25 +21,39 @@ namespace FinancialApp.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
+
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnurl = null)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewData["ReturnUrl"] = returnurl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login( LoginViewModel login)
+        public async Task<IActionResult> Login(LoginViewModel login, string returnurl = null)
         {
-            if (!ModelState.IsValid)
+            returnurl = returnurl ?? Url.Content("~/HighCharts/Column3DInteractive");
+            ModelState.Remove("ReturnUrl");
+            if (ModelState.IsValid)
             {
-                return View(login);
+                var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return LocalRedirect(returnurl);
+                        //RedirectToAction("Column3DInteractive", "HighCharts");
 
+                }
             }
-            return null;
+            return View(login);
         }
 
 
@@ -64,18 +79,31 @@ namespace FinancialApp.Controllers
                 var userCreated = await _userManager.CreateAsync(newUser, register.PassWord);
                 if (userCreated.Succeeded)
                 {
-                    await _signInManager.SignInAsync(newUser,isPersistent: false);
+                    await _signInManager.SignInAsync(newUser, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                    AddErros(userCreated);
+
             }
             return View(register);
         }
 
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public async Task<IActionResult> LogOff()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Home");
         }
+
+        private void AddErros(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
     }
 }

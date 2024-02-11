@@ -1,4 +1,5 @@
 using FinancialAppInfrastructure.Data.ApplicationContext;
+using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,14 @@ namespace FinancialApp
             builder.Services.AddDbContext<MyContextApp>(options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("MyConnection")));
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<MyContextApp>();
+
+            builder.Services.AddScoped<IdentityUser>();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Home/Login";
+                //options.AccessDeniedPath = "/Home/AccessDenied";
+            });
 
 
             // Add services to the container.
@@ -38,7 +47,7 @@ namespace FinancialApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Login}/{id?}");
 
             app.Run();
         }
